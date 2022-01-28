@@ -1,25 +1,23 @@
+const seedUser = require('./userSeed.js');
+const seedPost = require('./postSeed.js');
+const seedComment = require('./commentSeed.js');
+
 const sequelize = require('../config/connection');
-const { User, Project } = require('../models');
 
-const userData = require('./userData.json');
-const projectData = require('./projectData.json');
+const seedAll = async () => {
 
-const seedDatabase = async () => {
   await sequelize.sync({ force: true });
+  console.log('\n----- DATABASE SYNCED -----\n');
+  await seedUser();
+  console.log('\n----- USER SEEDED -----\n');
 
-  const users = await User.bulkCreate(userData, {
-    individualHooks: true,
-    returning: true,
-  });
+  await seedPost();
+  console.log('\n----- POST SEEDED -----\n');
 
-  for (const project of projectData) {
-    await Project.create({
-      ...project,
-      user_id: users[Math.floor(Math.random() * users.length)].id,
-    });
-  }
+  await seedComment();
+  console.log('\n----- COMMENT SEEDED -----\n');
 
   process.exit(0);
 };
 
-seedDatabase();
+seedAll();
