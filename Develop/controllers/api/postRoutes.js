@@ -63,7 +63,6 @@ router.get('/:id', (req, res) => {
         ]
     })
         .then(postData => {
-            // if no post by that id exists, return an error
             if (!postData) {
                 res.status(404).json({ message: 'Post not Found!' });
                 return;
@@ -90,6 +89,7 @@ router.post('/', withAuth, (req, res) => {
         });
 });
 
+
 router.put('/:id', withAuth, (req, res) => {
     Post.update(req.body,
         {
@@ -110,6 +110,7 @@ router.put('/:id', withAuth, (req, res) => {
             res.status(500).json(err)
         });
 });
+
 
 router.delete('/:id', withAuth, (req, res) => {
     Post.destroy({

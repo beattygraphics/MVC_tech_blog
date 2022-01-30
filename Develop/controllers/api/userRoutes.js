@@ -17,6 +17,7 @@ router.get('/', (req, res) => {
     });
 });
 
+
 router.get('/:id', (req, res) => {
   User.findOne({
     attributes: { exclude: ['password'] },
@@ -139,6 +140,7 @@ router.delete('/:id', withAuth, (req, res) => {
       res.status(500).json(err);
     });
 });
+
 
 router.post('/logout', withAuth, (req, res) => {
   if (req.session.loggedIn) {
