@@ -38,13 +38,27 @@ User.init(
   },
   {
     hooks: {
-      beforeCreate: async (newUserData) => {
-        newUserData.password = await bcrypt.hash(newUserData.password, 10);
-        return newUserData;
+      // beforeCreate:  async (newUserData) => {
+      //   //console.log("WE ARE HERE NOW!");
+      //   //const salt = await bcrypt.genSalt(10);
+      //   newUserData.password =  await bcrypt.hash(newUserData.password, 10);
+      //   //return newUserData;
+      // },
+      beforeBulkCreate:   (users) => {
+        
+        // const salt = await bcrypt.genSalt(10);
+        // newUserData.password =  await bcrypt.hash(newUserData.password, salt);
+        //console.log("WE ARE HERE NOW and users is " + users);
+        users.forEach( (user) => {
+          //console.log("WE ARE HERE NOW and thepassword is " + user.password);
+          user.password =  bcrypt.hashSync(user.password, 10);
+          console.log('\tWE ARE HERE NOW and thepassword is ' + user.password);
+        });
+        return users;
       },
-      beforeUpdate: async (updatedUserData) => {
-        updatedUserData.password = await bcrypt.hash(updatedUserData.password, 10);
-        return updatedUserData;
+      beforeUpdate:   (user) => {
+        user.password =  bcrypt.hashSync(user.password, 10);
+        return user;
       },
     },
     sequelize,
