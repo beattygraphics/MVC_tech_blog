@@ -62,12 +62,14 @@ router.post('/', (req, res) => {
   })
     .then(userData => {
       req.session.save(() => {
-        req.session.user_id = dbUserData.id;
-        req.session.username = dbUserData.username;
+        req.session.user_id = userData.id;
+        req.session.username = userData.username;
         req.session.loggedIn = true;
-
-        res.json(userData);
+        res.json({ user: userData, message: 'Registration Successfull' });
+       
       });
+      //console.log("SESSION IS SAVED?",req.session)
+      //res.json(userData); 
     })
     .catch(err => {
       console.log(err);
@@ -98,6 +100,8 @@ router.post('/login', (req, res) => {
 
       res.json({ user: userData, message: 'Login Successfull!' });
     });
+    console.log("SESSION IS SAVED?",req.session)
+    //res.json({ user: userData, message: 'Login Successfull!' });
   });
 });
 

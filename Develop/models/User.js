@@ -52,9 +52,13 @@ User.init(
         users.forEach( (user) => {
           //console.log("WE ARE HERE NOW and thepassword is " + user.password);
           user.password =  bcrypt.hashSync(user.password, 10);
-          console.log('\tWE ARE HERE NOW and thepassword is ' + user.password);
+          //console.log('\tWE ARE HERE NOW and thepassword is ' + user.password);
         });
         return users;
+      },
+      beforeCreate:   (user) => {
+        user.password =  bcrypt.hashSync(user.password, 10);
+        return user;
       },
       beforeUpdate:   (user) => {
         user.password =  bcrypt.hashSync(user.password, 10);

@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { User, Post,Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
-router.get('/post/:id',withAuth, async (req,res)=>{
+router.get('/post/:id', async (req,res)=>{
 
   // sequelize-typescript
 // models.products.findAll({
@@ -57,14 +57,21 @@ router.get('/', withAuth, async (req, res) => {
   }
 });
 
-router.get('/login', (req, res) => {
+router.get('/login', async (req, res) => {
   if (req.session.loggedIn) {
-   
+  
     res.redirect('/');
     return;
   }
-  
-  res.render('login');
+
+  const postData = await Post.findAll({
+    order:[['date_created','ASC']]
+  });
+  const posts = postData.map((post)=>post.get({plain:true}));
+ 
+  res.render('login',{ 
+    "posts":posts
+  });
 });
 
 router.get('/logout', (req, res) => {
@@ -77,6 +84,10 @@ router.get('/logout', (req, res) => {
   }
   
   //res.render('login');
+});
+
+router.get('/signup',(req,res)=>{
+  res.render('signup');
 });
 
 module.exports = router;

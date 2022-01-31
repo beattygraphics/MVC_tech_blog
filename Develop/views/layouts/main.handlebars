@@ -14,15 +14,16 @@
       <h1>
         <a href="/">Welcome to the Tech Blog</a>
       </h1>
-        <nav>
-          <span><a href="/">home</a></span> 
-          {{#if loggedIn}}
-          <a href="/dashboard">dashboard</a>
-          <a href="/logout" class="btn-no-style">logout</a>
-          {{else}}
-          <a href="/login">login</a>
-          {{/if}}
-        </nav>
+      <nav>
+        {{#if loggedIn}}
+        <a href="/logout" class="btn-no-style">logout</a>
+        {{else}}
+        <a href="/login">login</a>
+        {{/if}}
+        <span><a href="/">home</a></span>
+        <a href="/dashboard">dashboard</a>
+      </nav>
+      <hr>
     </header>
     <main>
       {{{ body }}}
@@ -33,7 +34,9 @@
   </div>
 
   {{#if loggedIn}}
-  {{!-- <script src="/js/logout.js"></script> --}}
+  {{!--
+  <script src="/js/logout.js"></script> --}}
+  <script src="/js/idleCheck.js"></script>
   {{/if}}
 </body>
 
